@@ -1,24 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import { cifrar, descifrar } from './components/vigenere/vigenere';
 
 function App() {
+  const [criptedText, setCriptedText] = useState('');
+  const [plainText, setPlainText] = useState('');
+  const [key, setKey] = useState('');
+
+  useEffect(() => {
+    setCriptedText(cifrar(plainText, key));
+  }, [plainText, key]);
+
+  const handleChange = e => {
+    if(e.target.name === 'plainText')
+      setPlainText(e.target.value);
+    if(e.target.name === 'key')
+      setKey(e.target.value);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      Texto en plano:
+      <input type='text' name='plainText' onChange={handleChange} /> <br />
+      Clave:
+      <input type='text' name='key' onChange={handleChange} /> <br />
+      Cifrado:
+      {criptedText}
     </div>
   );
 }
